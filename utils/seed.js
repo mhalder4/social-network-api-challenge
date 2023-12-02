@@ -19,10 +19,22 @@ connection.once('open', async () => {
     await connection.dropCollection('thoughts');
   }
 
-
-  const newUsers = await User.collection.insertMany(users);
-
   const newThoughts = await Thought.collection.insertMany(thoughts);
+
+  console.log(newThoughts);
+
+  const usersArr = users;
+  usersArr.forEach(user => {
+    thoughts.forEach(thought => {
+      if (user.username === thought.username) user.thoughts.push(thought._id);
+    })
+  })
+
+  console.log(usersArr);
+
+
+  const newUsers = await User.collection.insertMany(usersArr);
+
 
 
 

@@ -1,15 +1,13 @@
 const router = require("express").Router();
 const { User, Thought } = require("../../models");
 
-const Model = User;
+const Model = Thought;
 
 
 // Get all records
 router.get("/", async (req, res) => {
   try {
-    const payload = await Model.find()
-      .populate({ path: "thoughts" })
-      .populate({ path: "friends" });
+    const payload = await Model.find();
     res.status(200).json({ status: "success", payload });
   } catch (err) {
     res.status(500).json({ status: "error", payload: err.message });
@@ -20,8 +18,6 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const payload = await Model.findOne({ _id: req.params.id })
-      .populate({ path: "thoughts" })
-      .populate({ path: "friends" });
 
     // .select('-__v');
     res.status(200).json({ status: "success", payload });
@@ -40,10 +36,10 @@ router.post("/", async (req, res) => {
   }
 })
 
-// Add a friend
-router.post("/:userId/friends/:friendId", async (req, res) => {
+// Create a new reaction
+router.post("/:thoughtId/reactions", async (req, res) => {
   try {
-    const payload = await Model.findOneAndUpdate({ _id: req.params.userId }, { $push: { friends: req.params.friendId } }, {
+    const payload = await Model.findOneAndUpdate({ _id: req.params.thoughtId }, { $push: { reactions: req.body } }, {
       new: true,
       upsert: true
     });
@@ -70,12 +66,28 @@ router.put("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   try {
     const payload = await Model.findByIdAndDelete(req.params.id);
-    const thoughtPayload = await Thought.deleteMany({ username: payload.username });
     res.status(200).json({ status: "success" });
   } catch (err) {
     res.status(500).json({ status: "error", payload: err.message });
   }
 
+})
+
+// Delete a reaction
+router.delete("/:thoughtId/reactions/:reactionId", async (req, res) => {
+  try {
+    const payload = await Model.findOneAndUpdate(
+      {
+        _id: req.params.thoughtId
+      }, {
+      $pull: { reactions: { reactionId: req.params.reactionId } }
+    }, {
+      runValidators: true, new: true
+    });
+    res.status(200).json({ status: "Delete success", payload });
+  } catch (err) {
+    res.status(500).json({ status: "error", payload: err.message });
+  }
 })
 
 
