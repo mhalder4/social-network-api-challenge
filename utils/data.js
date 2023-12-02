@@ -51,17 +51,17 @@ const thoughts = [
     reactions: reactions
   },
   {
-    thoughtText: "All you need to do is pick up the pen and begin.",
+    thoughtText: "The elderly neighborhood became enraged over the coyotes who had been blamed for the poodle's disappearance.",
     username: "Thicho",
     reactions: reactions
   },
   {
-    thoughtText: "All you need to do is pick up the pen and begin.",
+    thoughtText: "Everyone says they love nature until they realize how dangerous she can be.",
     username: "Difusleas",
     reactions: reactions
   },
   {
-    thoughtText: "All you need to do is pick up the pen and begin.",
+    thoughtText: "They decided to plant an orchard of cotton candy.",
     username: "Wastand93",
     reactions: reactions
   },
