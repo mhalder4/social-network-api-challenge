@@ -29,7 +29,7 @@ router.get("/:id", async (req, res) => {
 // Create a new record
 router.post("/", async (req, res) => {
   try {
-    const payload = await Model.create(req.body);
+    const payload = await Model.create(req.body, { runValidators: true, });
     res.status(200).json({ status: "success", payload });
   } catch (err) {
     res.status(500).json({ status: "error", payload: err.message });
@@ -40,6 +40,7 @@ router.post("/", async (req, res) => {
 router.post("/:thoughtId/reactions", async (req, res) => {
   try {
     const payload = await Model.findOneAndUpdate({ _id: req.params.thoughtId }, { $push: { reactions: req.body } }, {
+      runValidators: true,
       new: true,
       upsert: true
     });
@@ -53,6 +54,7 @@ router.post("/:thoughtId/reactions", async (req, res) => {
 router.put("/:id", async (req, res) => {
   try {
     const payload = await Model.findOneAndUpdate({ _id: req.params.id }, req.body, {
+      runValidators: true,
       new: true,
       upsert: true
     });

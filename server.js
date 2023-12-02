@@ -11,8 +11,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(routes);
 
-const date = new Date();
-console.log(date.toLocaleString());
+
 
 db.once('open', () => {
   app.listen(PORT, () => {
